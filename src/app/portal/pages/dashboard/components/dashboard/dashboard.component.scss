@@ -1,0 +1,30 @@
+@import "/src/styles.scss";
+
+.bold-text {
+  @include bold-font;
+}
+.inter-bold-text {
+  @include inter-bold-font;
+}
+
+section {
+  .bg-white {
+    border-radius: 8px;
+  }
+  .body {
+    @include inter-regular-font;
+  }
+  .card {
+    color: #030229;
+    border-radius: 10px;
+    border: 0px solid #ccc;
+    padding: 30px 30px;
+  }
+
+  .dropdown-wrap {
+    background: #e6e8ec;
+    border: 1px solid rgba(222, 226, 230, 0.6);
+    border-radius: 4px;
+    padding: 1em;
+  }
+}

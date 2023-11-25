@@ -1,0 +1,164 @@
+.mat-button,
+a {
+  border: none;
+  display: flex !important;
+  justify-content: center !important;
+
+  &:focus {
+    outline: none !important;
+  }
+}
+.mat-button {
+  padding: 0px 15px !important;
+  height: 48px;
+  min-width: 74px !important;
+  align-items: center !important;
+  @include regular-font;
+  &.print {
+    mat-icon {
+      color: $red;
+    }
+  }
+  &.btn-edit {
+    color: #f48220;
+  }
+  &.btn-danger {
+    color: #c72020;
+  }
+}
+.mat-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300 !important;
+  font-family: "Baloo2-Bold";
+  width: -webkit-fill-available;
+}
+
+.mat-flat-button {
+  height: 52px;
+  border-radius: 4px !important;
+  min-width: 175px !important;
+  text-decoration: none !important;
+  width: auto;
+  color: #fff;
+  background: $light-red;
+  font-size: 14px;
+  font-family: "Rubik", sans-serif;
+  ion-icon {
+    font-size: 21px;
+    margin: 0em 5px;
+  }
+  &:focus {
+    outline: 0px auto -webkit-focus-ring-color !important;
+  }
+  &:hover {
+    color: $white;
+  }
+  &.w--auto {
+    min-width: 100% !important;
+  }
+  &.w--124 {
+    min-width: 124px !important;
+    height: 52px;
+  }
+  &.w--117 {
+    min-width: 117px !important;
+    height: 52px;
+  }
+  &.b-flat-sm {
+    height: 38px;
+    min-width: 150px !important;
+  }
+  &.w--141 {
+    min-width: 141px !important;
+    height: 52px;
+  }
+  &.w--195 {
+    font-weight: bold;
+    min-width: 195px !important;
+  }
+  &.btn-orange {
+    background: $orange !important;
+  }
+  &.btn-light-purple {
+    background: #2f80ed !important;
+  }
+  &.btn-danger {
+    background: rgba($red, 0.1) !important;
+    color: $red;
+  }
+}
+.mat-stroked-button {
+  min-width: 128px !important;
+  height: 52px;
+  text-decoration: none;
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  border-radius: 4px !important;
+  border: 1px solid $light-red !important;
+  font-family: "Baloo2-Bold";
+  color: $light-red;
+  &:hover {
+    color: $light-red;
+  }
+  &.mat-stroked-secondary {
+    height: 44px;
+    border: 1px solid #cbcbcd !important;
+    color: $black;
+    ion-icon,
+    mat-icon {
+      color: $black;
+    }
+  }
+  &.mat-stroked-primary {
+    height: 44px;
+    border: 1px solid $purple !important;
+    color: $purple;
+    ion-icon,
+    mat-icon {
+      color: $purple;
+    }
+  }
+  &.btn--danger {
+    border: 1px solid $red !important;
+    color: $red;
+  }
+  &.sm-btn {
+    min-width: 50px !important;
+    height: 40px !important;
+    border: 1px solid rgba(1, 95, 209, 0.18) !important;
+  }
+}
+.btn-link {
+  color: $red !important;
+  text-decoration: underline !important;
+}
+.btn--primary {
+  background: $red;
+  color: $white;
+}
+.btn--secondary {
+  color: $blue;
+}
+
+.txt-danger {
+  color: $red;
+  &.underline {
+    text-decoration: underline !important;
+  }
+}
+
+.mat-flat-white {
+  background: $white !important;
+  color: $purple !important;
+}
+.fit-content {
+  width: fit-content;
+}
+
+::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: $light-red;
+}

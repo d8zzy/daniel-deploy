@@ -1,0 +1,173 @@
+<section>
+  <div class="d-flex flex-column mb-3 body">
+    <div class="d-flex align-items-center my-2">
+      <mat-icon class="cursor" (click)="complete()"
+        >keyboard_arrow_left</mat-icon
+      >
+      <div class="ms-2 fs-6 inter-bold-text">View Details</div>
+    </div>
+
+    <!-- <div class="txt-grey">View reported fault details</div> -->
+  </div>
+
+  <div class="grid grid--1fr--1fr grid-gap-30 my-3">
+    <div class="txt-grey fs-6">View observation report details</div>
+    <div class="txt-grey fs-6">View reported fault details</div>
+  </div>
+  <div class="bg-white my-3 p-4">
+    <div class="grid grid--1fr--1fr grid-gap-30">
+      <div class="">
+        <div class="txt-light-red inter-bold-text fs-5 my-3">
+          Procurement Details
+        </div>
+
+        <div class="d-flex align-items-start my-4">
+          <div class="grid grid--1fr--1fr grid-row-gap-10">
+            <div class="mb-3">Order ID:</div>
+            <div class="mb-3 ms-3">Dare Akinwale (Facility manager)</div>
+            <div class="mb-3">Date Created:</div>
+            <div class="mb-3 ms-3">
+              <!-- ₦ -->
+              20/09/2023 11:15pm
+            </div>
+            <div class="mb-3">Delivery Date:</div>
+            <div class="mb-3 ms-3">20/09/2023 11:15pm</div>
+            <div class="mb-3">Delivery Address:</div>
+            <div class="mb-3 ms-3">Akinwale str. sabo yaba, lagos</div>
+
+            <div class="mb-3">Facility Manager:</div>
+            <div class="mb-3 ms-3">Olawale Samuel</div>
+            <div class="mb-3">Attachments (2):</div>
+            <div class="mb-3 ms-3">
+              <div class="d-flex align-items-center">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <mat-divider [vertical]="true"></mat-divider> -->
+      <div class="">
+        <div class="txt-light-red inter-bold-text fs-5 my-3">Item Details</div>
+
+        <div class="d-flex align-items-start my-4">
+          <div class="grid grid--1fr--1fr grid-row-gap-10">
+            <div class="mb-3">Air conditioner 2HP</div>
+            <div class="mb-3 ms-3">3</div>
+            <div class="mb-3">OX Fan 24 inches</div>
+            <div class="mb-3 ms-3">2</div>
+            <div class="inter-bold-text mb-3">TOTAL</div>
+            <div class="inter-bold-text mb-3 ms-3">5</div>
+
+            <div class="mb-3">Attachments (3):</div>
+            <div class="mb-3 ms-3">
+              <div class="d-flex align-items-center">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end my-4">
+      <button mat-flat-button class="dark">BACK</button>
+      <button
+        mat-flat-button
+        class="ms-3"
+        data-bs-toggle="modal"
+        data-bs-target="#complete"
+      >
+        COMPLETE ORDER
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="complete" role="dialog" data-bs-backdrop="static">
+  <div class="modal-dialog modal-wrapper">
+    <div class="modal-content-wrap">
+      <div class="modal-body">
+        <div class="container p-4">
+          <div class="d-flex justify-content-between px-4 py-3">
+            <div class="d-flex justify-content-start flex start flex-column">
+              <div class="txt-light-red fs-5 inter-bold-text">
+                Upload Invoice
+              </div>
+              <div class="fs-6 mt-2">
+                Accept reported fault and upload invoice
+              </div>
+            </div>
+
+            <mat-icon data-bs-dismiss="modal" class="cursor" #closebtn1
+              >close</mat-icon
+            >
+          </div>
+
+          <div class="pb-3">
+            <form>
+              <div class="center px-4">
+                <div class="input">
+                  <label class="d-flex justify-content-start mb-2"
+                    >Description</label
+                  >
+                  <textarea
+                    name=""
+                    id=""
+                    cols="20"
+                    rows="10"
+                    placeholder="Enter description"
+                  ></textarea>
+                </div>
+
+                <div class="input">
+                  <label class="d-flex justify-content-start mb-2"
+                    >Completion Date</label
+                  >
+                  <input type="date" />
+                </div>
+
+                <div class="input">
+                  <label class="d-flex justify-content-start mb-2"
+                    >Upload Invoice</label
+                  >
+                  <div class="document cursor">
+                    <img
+                      src="assets/imgs/upload-icon.svg"
+                      alt=""
+                      class="me-2"
+                      width="20px"
+                      height="20px"
+                    />
+                    <div class="txt-grey">Click here to upload file</div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                  <button mat-flat-button class="" (click)="close()">
+                    UPLOAD INVOICE
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

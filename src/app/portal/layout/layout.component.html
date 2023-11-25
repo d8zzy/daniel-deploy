@@ -1,0 +1,12 @@
+<main>
+  <div class="container-wrap">
+    <app-side-navigation
+      [navConfig]="navConfig"
+      [navConfig2]="navConfig2"
+    ></app-side-navigation>
+    <section class="main-content container-fluid">
+      <app-top-navigation [userData]="userData"></app-top-navigation>
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,69 @@
+@import "/src/styles.scss";
+
+.bold-text {
+  @include bold-font;
+}
+
+section {
+  .bg {
+    // background: url("/assets/imgs/home-img.svg") no-repeat center center fixed !important;
+    background-image: url("/assets/imgs/home-img.svg") !important;
+    height: 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: rgba(121, 0, 9, 0.58);
+    .text {
+      color: $white;
+    }
+  }
+
+  .padder {
+    padding: 4rem;
+    .pad {
+      padding-left: 6rem !important;
+      padding-right: 6rem !important;
+    }
+  }
+  .form-wrap {
+    padding: 0.5em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    form {
+      padding: 2em 0;
+      width: 100%;
+      a {
+        color: $black;
+      }
+      .register {
+        text-decoration: underline !important;
+      }
+    }
+  }
+  .mb-lgin {
+    display: none;
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    .padder {
+      padding: 1.6rem;
+      .pad {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+      }
+    }
+    .w-500 {
+      width: auto;
+    }
+    .spacer {
+      margin-top: 4rem;
+    }
+    .dsk-lgin {
+      display: none;
+    }
+    .mb-lgin {
+      display: block;
+    }
+  }
+}

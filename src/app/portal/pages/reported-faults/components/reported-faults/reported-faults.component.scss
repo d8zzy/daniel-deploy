@@ -1,0 +1,54 @@
+@import "/src/styles.scss";
+
+.bold-text {
+  @include bold-font;
+}
+.inter-bold-text {
+  @include inter-bold-font;
+}
+
+section {
+  @include inter-regular-font;
+  .bg-white {
+    border-radius: 8px;
+  }
+  .table-wrapper {
+    .orange {
+      color: #f48220;
+      padding: 8px 25px;
+      border-radius: 5px;
+      background: rgba(255, 131, 0, 0.1);
+    }
+    .green {
+      color: #32a071;
+      padding: 8px 25px;
+      border-radius: 5px;
+      background: rgba(50, 160, 113, 0.1);
+    }
+    .red {
+      color: #f91313;
+      padding: 8px 25px;
+      border-radius: 5px;
+      background: rgba(249, 19, 19, 0.1);
+    }
+    .purple {
+      color: #c30bbc;
+      padding: 8px 25px;
+      border-radius: 5px;
+      background: rgba(244, 19, 249, 0.1);
+    }
+  }
+  .card {
+    color: #030229;
+    border-radius: 8px;
+    border: 0px solid #ccc;
+    padding: 20px 20px;
+  }
+
+  .dropdown-wrap {
+    background: #e6e8ec;
+    border: 1px solid rgba(222, 226, 230, 0.6);
+    border-radius: 4px;
+    padding: 1em;
+  }
+}

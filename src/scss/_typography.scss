@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "Baloo2-Regular";
+  font-display: block;
+  src: url("../assets/fonts/Baloo2-Regular.ttf");
+}
+@font-face {
+  font-family: "Inter-Regular";
+  font-display: block;
+  src: url("../assets/fonts/Inter-Regular.ttf");
+}
+@font-face {
+  font-family: "Baloo2-Bold";
+  src: url("../assets/fonts/Baloo2-Bold.ttf");
+}
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("../assets/fonts/Inter-Bold.ttf");
+}
+@font-face {
+  font-family: "Baloo2-ExtraBold";
+  src: url("../assets/fonts/Baloo2-ExtraBold.ttf");
+}
+@font-face {
+  font-family: "Baloo2-Medium";
+  src: url("../assets/fonts/Baloo2-Medium.ttf");
+}
+@font-face {
+  font-family: "Baloo2-SemiBold";
+  src: url("../assets/fonts/Baloo2-SemiBold.ttf");
+}
+
+@mixin inter-regular-font {
+  font-family: "Inter-Regular" !important;
+}
+
+@mixin regular-font {
+  font-family: "Baloo2-Regular" !important;
+}
+
+@mixin inter-bold-font {
+  font-family: "Inter-Bold" !important;
+}
+
+@mixin bold-font {
+  font-family: "Baloo2-Bold" !important;
+}

@@ -1,0 +1,108 @@
+<section>
+  <div class="d-flex flex-column mb-3 body">
+    <div class="d-flex align-items-center my-2">
+      <mat-icon class="cursor" (click)="complete()"
+        >keyboard_arrow_left</mat-icon
+      >
+      <div class="ms-2 fs-6 inter-bold-text">View Details</div>
+    </div>
+
+    <div class="txt-grey">View reported fault details</div>
+  </div>
+
+  <div class="bg-white my-3 p-4">
+    <div class="grid grid--1fr--1fr grid-gap-30">
+      <div class="">
+        <div class="txt-light-red inter-bold-text fs-5 my-3">Fault Details</div>
+
+        <div class="d-flex align-items-start my-4">
+          <div class="grid grid--1fr--1fr grid-row-gap-10">
+            <div class="mb-3">Reporter’s name:</div>
+            <div class="mb-3 ms-3">Dare Akinwale (Facility manager)</div>
+            <div class="mb-3">Reporter’s Email</div>
+            <div class="mb-3 ms-3">
+              <!-- ₦ -->
+              dareakinwale@gmail.com
+            </div>
+            <div class="mb-3">Reporter’s Phone Number:</div>
+            <div class="mb-3 ms-3">+2347066514231</div>
+            <div class="mb-3">Date Reported:</div>
+            <div class="mb-3 ms-3">20/09/2023 11:15pm</div>
+
+            <div class="mb-3">Fault description:</div>
+            <div class="mb-3 ms-3">
+              All the socket and switch needs to be repaired
+            </div>
+            <div class="mb-3">Attachments (2):</div>
+            <div class="mb-3 ms-3">
+              <div class="d-flex align-items-center">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+            </div>
+            <div class="mb-3">Fault status:</div>
+            <div class="mb-3 ms-3">Open</div>
+          </div>
+        </div>
+      </div>
+      <!-- <mat-divider [vertical]="true"></mat-divider> -->
+      <div class="">
+        <div class="txt-light-red inter-bold-text fs-5 my-3">
+          Property Details
+        </div>
+
+        <div class="d-flex align-items-start my-4">
+          <div class="grid grid--1fr--1fr grid-row-gap-10">
+            <div class="mb-3">Property name:</div>
+            <div class="mb-3 ms-3">Ivory Towers</div>
+            <div class="mb-3">Property ID:</div>
+            <div class="mb-3 ms-3">
+              <!-- ₦ -->
+              10012115
+            </div>
+            <div class="mb-3">Address/location:</div>
+            <div class="mb-3 ms-3">Akinwale str. sabo yaba, lagos</div>
+            <div class="mb-3">Property manager:</div>
+            <div class="mb-3 ms-3">Olawale Samuel</div>
+
+            <div class="mb-3">Phone Number:</div>
+            <div class="mb-3 ms-3">+2347066514231</div>
+            <div class="mb-3">Description:</div>
+            <div class="mb-3 ms-3">
+              All the socket and switch needs to be repaired
+            </div>
+            <div class="mb-3">Attachments (3):</div>
+            <div class="mb-3 ms-3">
+              <div class="d-flex align-items-center">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+              <div class="d-flex align-items-center my-3">
+                <mat-icon>image</mat-icon>
+                <div class="ms-2">Image 0001.jPG</div>
+              </div>
+            </div>
+            <div class="mb-3">Fault status:</div>
+            <div class="mb-3 ms-3">Open</div>
+          </div>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end my-4">
+      <button mat-flat-button class="dark">BACK</button>
+      <button mat-flat-button class="ms-3" (click)="complete()">
+        COMPLETE
+      </button>
+    </div>
+  </div>
+</section>

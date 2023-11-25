@@ -1,0 +1,32 @@
+<nav id="sidebar" [ngClass]="{ open: _isOpen }">
+  <div class="logo-banner">
+    <div class="d-flex align-items-center">
+      <!-- <img src="assets/movam-logo-02.svg" alt="movam-logo" class="logo mb-2" /> -->
+    </div>
+  </div>
+  <div class="sidebar-content">
+    <ul>
+      <div class="accordion" id="root">
+        <li *ngFor="let item of navConfig; let i = index; let l = last">
+          <a [routerLink]="item.url" routerLinkActive="active">
+            <span> <img [src]="item.iconUrl" alt="" /></span>
+            <span>{{ item.name }}</span>
+          </a>
+        </li>
+      </div>
+    </ul>
+    <ul>
+      <div class="accordion2" id="root">
+        <li *ngFor="let item of navConfig2; let i = index; let l = last">
+          <a [routerLink]="item.url" routerLinkActive="active">
+            <span> <img [src]="item.iconUrl" alt="" /></span>
+            <span>{{ item.name }}</span>
+          </a>
+        </li>
+      </div>
+    </ul>
+  </div>
+  <div class="snap-btn" (click)="toggleSnap()">
+    <mat-icon>arrow_forward_ios</mat-icon>
+  </div>
+</nav>

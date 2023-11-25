@@ -1,0 +1,98 @@
+<section>
+  <div class="d-flex flex-column mb-3">
+    <div class="fs-5 my-2">Hi, Vendor</div>
+    <div class="txt-grey fs-6">
+      Welcome back, Here is an overview of your activities
+    </div>
+  </div>
+
+  <div class="grid grid--2fr--3fr grid-gap-30 body">
+    <div class="bg-white p-5">
+      <div class="">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="fs-5 inter-bold-text">Overview</div>
+          <div class="dropdown dropdown-wrap">
+            <div class="d-flex align-items-center">
+              <div class="avatar"></div>
+              <div class="d-block">
+                <label class="profile-name">{{ selectedFilter }}</label>
+              </div>
+              <mat-icon class="cursor" [matMenuTriggerFor]="menu"
+                >expand_more</mat-icon
+              >
+            </div>
+            <mat-menu #menu="matMenu">
+              <button
+                type="button"
+                mat-menu-item
+                *ngFor="let filter of filters"
+                (click)="filterer(filter)"
+              >
+                {{ filter }}
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <div class="grid grid--repeat--two my-4 grid-gap-15 grid-row-gap-15">
+          <div class="card" style="background: #ffe3bf">
+            <div class="fs-4 mt-2">50</div>
+            <div class="mt-3">
+              <p class="">Total Faults Reported</p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #c4ffba">
+            <div class="fs-4 mt-2">35</div>
+            <div class="mt-3">
+              <p class="">Completed Faults</p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #d3f8f7">
+            <div class="fs-4 mt-2">6</div>
+            <div class="mt-3">
+              <p class="">Opened Faults</p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #ffbfbf">
+            <div class="fs-4 mt-2">9</div>
+            <div class="mt-3">
+              <p class="">Rejected Faults</p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #f8d3f4">
+            <div class="fs-4 mt-2">2</div>
+            <div class="mt-3">
+              <p class="">Pending Requests</p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #eaeaea">
+            <div class="fs-4 mt-2">16</div>
+            <div class="mt-3">
+              <p class="">Observation Reports</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-5">
+      <div class="fs-5 inter-bold-text">Recent Activities</div>
+      <div class="list">
+        <div class="d-flex flex-column my-3" *ngFor="let item of activites">
+          <div class="d-flex align-items-center my-2">
+            <img src="/assets/imgs/list-item.svg" alt="bell-icon" />
+            <div class="ms-2">{{ item.type }}</div>
+          </div>
+
+          <div class="txt-grey my-1">{{ item.info }}</div>
+          <div class="txt-blue my-1">{{ item.time }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

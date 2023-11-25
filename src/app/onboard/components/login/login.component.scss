@@ -1,0 +1,76 @@
+@import "/src/styles.scss";
+
+.bold-text {
+  @include bold-font;
+}
+
+section {
+  .bg-white {
+    max-height: 85vh;
+    overflow: scroll;
+  }
+  .bg {
+    // background: url("/assets/imgs/home-img.svg") no-repeat center center fixed !important;
+    background-image: url("/assets/imgs/home-img.svg") !important;
+    height: 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: rgba(121, 0, 9, 0.58);
+    .text {
+      color: $white;
+    }
+  }
+  .form-wrap {
+    padding: 0.5em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    form {
+      padding: 2em 0;
+      width: 100%;
+      a {
+        color: $black;
+      }
+      .register {
+        text-decoration: underline !important;
+      }
+    }
+  }
+  .mb-lgin {
+    display: none;
+  }
+
+  .borders {
+    border: 1px solid #393939;
+  }
+  .selected {
+    border: 2px solid #80131b;
+    .active {
+      position: relative;
+      img {
+        position: absolute;
+        right: -13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 3px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    .w-500 {
+      width: auto;
+    }
+    .spacer {
+      margin-top: 4rem;
+    }
+    .dsk-lgin {
+      display: none;
+    }
+    .mb-lgin {
+      display: block;
+    }
+  }
+}

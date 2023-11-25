@@ -1,0 +1,73 @@
+@import "/src/styles.scss";
+.bold-text {
+  @include bold-font;
+}
+
+header {
+  background: $white;
+  padding: 1em 2em;
+  position: fixed;
+  left: 17.9em;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  .logo {
+    img {
+      width: 30%;
+    }
+  }
+  .icon {
+    cursor: pointer;
+    img {
+      width: 20px;
+    }
+  }
+  .profile-name {
+    display: flex;
+    flex-direction: column;
+    margin: 0em 1em;
+    color: #080730;
+    font-size: 13px;
+    @include bold-font;
+    text-transform: capitalize;
+    line-height: 17px;
+    span {
+      font-size: 10px;
+      @include regular-font;
+    }
+  }
+  .dropdown-wrap {
+    background: #e6e8ec;
+    border: 1px solid rgba(222, 226, 230, 0.6);
+    border-radius: 8px;
+    padding: 0.5em;
+  }
+  .avatar {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 50%;
+  }
+  .panel {
+    padding: 0.5em 1.2em;
+    border-radius: 10px;
+    background: #fff;
+    transition: 0.5s ease-in-out;
+    box-shadow: 0px 1px 15px 2px #e0e0e0;
+    width: 400px;
+  }
+
+  @media only screen and (min-width: 320px) and (max-width: 991px) {
+    padding: 0.5em 1em;
+    left: 0;
+    .panel {
+      display: none !important;
+    }
+    .icon {
+      display: none;
+    }
+  }
+}

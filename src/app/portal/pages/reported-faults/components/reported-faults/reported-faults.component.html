@@ -1,0 +1,920 @@
+<section>
+  <div class="d-flex flex-column mb-3 body">
+    <div class="fs-5 my-2">Reported Faults</div>
+    <div class="txt-grey fs-6">
+      Here, you can view and manage faults that have been reported to you
+    </div>
+  </div>
+
+  <div class="w-75 mb-4 body">
+    <div class="grid grid--repeat--four my-4 grid-gap-30 grid-row-gap-30">
+      <div class="bg-white card cursor" (click)="switchTab(0)">
+        <div class="d-flex align-items-center">
+          <img src="/assets/imgs/open-icon.svg" alt="bell-icon" />
+          <div class="d-flex flex-column flex-start ms-3">
+            <div class="inter-bold-text fs-5 my-2">6</div>
+            <div class="txt-grey">Open</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white card cursor" (click)="switchTab(1)">
+        <div class="d-flex align-items-center">
+          <img src="/assets/imgs/completed-icon.svg" alt="bell-icon" />
+          <div class="d-flex flex-column flex-start ms-3">
+            <div class="inter-bold-text fs-5 my-2">35</div>
+            <div class="txt-grey">Completed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white card cursor" (click)="switchTab(2)">
+        <div class="d-flex align-items-center">
+          <img src="/assets/imgs/rejected.svg" alt="bell-icon" />
+          <div class="d-flex flex-column flex-start ms-3">
+            <div class="inter-bold-text fs-5 my-2">9</div>
+            <div class="txt-grey">Rejected</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white card cursor" (click)="switchTab(3)">
+        <div class="d-flex align-items-center">
+          <img src="/assets/imgs/pending-icon.svg" alt="bell-icon" />
+          <div class="d-flex flex-column flex-start ms-3">
+            <div class="inter-bold-text fs-5 my-2">2</div>
+            <div class="txt-grey">Pending</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-tab-group animationDuration="0.5ms" [selectedIndex]="selectedIndex">
+        <mat-tab label="Open ({{ 6 }})">
+          <ng-container *ngIf="isFetching">
+            <app-loading-roller></app-loading-roller>
+          </ng-container>
+          <div
+            class="d-flex justify-content-center align-items-center my-3 empty-state"
+            *ngIf="!isFetching && dummyData.length === 0"
+          >
+            <app-empty-state></app-empty-state>
+          </div>
+          <div
+            class="overflow--wrap _visible body"
+            [ngClass]="{ hide: dummyData.length == 0 }"
+          >
+            <div class="table-wrapper tbl-wrap">
+              <ng-container *ngIf="dummyData.length !== 0">
+                <div
+                  class="toolbar mb-5 adjust-wrap d-flex justify-content-between align-items-center"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-start adjust-flex"
+                  >
+                    <div
+                      class="d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <!-- Master Checkbox-->
+                      <mat-checkbox
+                        class="m-0"
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          selection.hasValue() && !isAllSelected()
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
+                      </mat-checkbox>
+                    </div>
+                    <div class="d-flex align-items-center me-2">
+                      <div [matMenuTriggerFor]="menu" class="cursor">
+                        <span class="d-flex">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button type="button" mat-menu-item>Action</button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <div class="search-input w-400 m-0">
+                      <span><mat-icon>search</mat-icon></span>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        (keyup)="applyFilter($event)"
+                        #input
+                        class="w-400"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center mr-1">
+                      <label class="me-3">Sort by</label>
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary"
+                        [matMenuTriggerFor]="sortby"
+                      >
+                        Most recent
+                        <mat-icon class="ms-2">keyboard_arrow_down</mat-icon>
+                      </button>
+                      <mat-menu #sortby="matMenu">
+                        <button mat-menu-item>
+                          <span>Ascending</span>
+                        </button>
+                        <button mat-menu-item>
+                          <span>Descending</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+
+                    <!-- <div class="mx-3">
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary ms-2"
+                      >
+                        Import
+                      </button>
+                    </div> -->
+
+                    <!-- <div>
+                      <button mat-button>
+                        <img
+                          src="assets/imgs/export-icon.svg"
+                          alt=""
+                          class="me-2"
+                        />
+                        {{ isExporting ? "" : "Export" }}
+                        <mat-spinner *ngIf="isExporting"></mat-spinner>
+                      </button>
+                    </div> -->
+                  </div>
+                </div>
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="table custom-table w-100"
+                >
+                  <ng-container
+                    *ngFor="
+                      let disCol of displayedColumns;
+                      let colIndex = index;
+                      let last = last
+                    "
+                    [matColumnDef]="disCol"
+                  >
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{ disCol }}
+                    </th>
+                    <ng-container *ngIf="colIndex === 0">
+                      <td mat-cell *matCellDef="let element">
+                        <div
+                          class="d-flex align-items-center"
+                          style="width: fit-content"
+                        >
+                          <mat-checkbox
+                            [value]="element"
+                            (click)="$event.stopPropagation()"
+                            (change)="
+                              $event ? selection.toggle(element.uuid) : null
+                            "
+                            [checked]="selection.isSelected(element.uuid)"
+                          >
+                            <span>{{ element["property"] }}</span>
+                          </mat-checkbox>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Action Column-->
+                    <ng-container *ngIf="last">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <div [matMenuTriggerFor]="menu">
+                          <span class="cursor">
+                            <mat-icon>more_horiz</mat-icon>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <button
+                              type="button"
+                              mat-menu-item
+                              (click)="viewDetails()"
+                            >
+                              View details
+                            </button>
+                            <button type="button" mat-menu-item>
+                              Report Observation
+                            </button>
+                          </mat-menu>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Table  Row Content-->
+                    <ng-container *ngIf="disCol == 'address'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["address"] }}</span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'fault type'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["fault type"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'date reported'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["date reported"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'status'">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <span class="cover-status orange">
+                          {{ element["status"] }}
+                        </span>
+                      </td>
+                    </ng-container>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="tag me-0">
+                        {{ element[concatColumnString(disCol)] }}</span
+                      >
+                    </td>
+                  </ng-container>
+                  <!--Mat-table  configurations-->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{
+                      'bg-wrap': selection.isSelected(row)
+                    }"
+                  ></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *ngIf="isFetching">
+                    <td class="mat-cell" colspan="4">Fetching data...</td>
+                  </tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the search item: "{{ filterValue }}"
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+              <mat-paginator
+                #all
+                showFirstLastButton
+                [pageIndex]="currentPage"
+                [pageSize]="pageSize"
+                (page)="pageChanged($event)"
+                class="visibility"
+                [ngClass]="{ hidden: dummyData.length == 0 }"
+              ></mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Completed ({{ 35 }})">
+          <ng-container *ngIf="isFetching">
+            <app-loading-roller></app-loading-roller>
+          </ng-container>
+          <div
+            class="d-flex justify-content-center align-items-center my-3 empty-state"
+            *ngIf="!isFetching && dummyData.length === 0"
+          >
+            <app-empty-state></app-empty-state>
+          </div>
+          <div
+            class="overflow--wrap _visible body"
+            [ngClass]="{ hide: dummyData.length == 0 }"
+          >
+            <div class="table-wrapper tbl-wrap">
+              <ng-container *ngIf="dummyData.length !== 0">
+                <div
+                  class="toolbar mb-5 adjust-wrap d-flex justify-content-between align-items-center"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-start adjust-flex"
+                  >
+                    <div
+                      class="d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <!-- Master Checkbox-->
+                      <mat-checkbox
+                        class="m-0"
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          selection.hasValue() && !isAllSelected()
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
+                      </mat-checkbox>
+                    </div>
+                    <div class="d-flex align-items-center me-2">
+                      <div [matMenuTriggerFor]="menu" class="cursor">
+                        <span class="d-flex">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button type="button" mat-menu-item>Action</button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <div class="search-input w-400 m-0">
+                      <span><mat-icon>search</mat-icon></span>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        (keyup)="applyFilter($event)"
+                        #input
+                        class="w-400"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center mr-1">
+                      <label class="me-3">Sort by</label>
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary"
+                        [matMenuTriggerFor]="sortby"
+                      >
+                        Most recent
+                        <mat-icon class="ms-2">keyboard_arrow_down</mat-icon>
+                      </button>
+                      <mat-menu #sortby="matMenu">
+                        <button mat-menu-item>
+                          <span>Ascending</span>
+                        </button>
+                        <button mat-menu-item>
+                          <span>Descending</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+
+                    <!-- <div class="mx-3">
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary ms-2"
+                      >
+                        Import
+                      </button>
+                    </div> -->
+
+                    <!-- <div>
+                      <button mat-button>
+                        <img src="assets/export-icon.svg" alt="" class="me-2" />
+                        {{ isExporting ? "" : "Export" }}
+                        <mat-spinner *ngIf="isExporting"></mat-spinner>
+                      </button>
+                    </div> -->
+                  </div>
+                </div>
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="table custom-table w-100"
+                >
+                  <ng-container
+                    *ngFor="
+                      let disCol of displayedColumns;
+                      let colIndex = index;
+                      let last = last
+                    "
+                    [matColumnDef]="disCol"
+                  >
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{ disCol }}
+                    </th>
+                    <ng-container *ngIf="colIndex === 0">
+                      <td mat-cell *matCellDef="let element">
+                        <div
+                          class="d-flex align-items-center"
+                          style="width: fit-content"
+                        >
+                          <mat-checkbox
+                            [value]="element"
+                            (click)="$event.stopPropagation()"
+                            (change)="
+                              $event ? selection.toggle(element.uuid) : null
+                            "
+                            [checked]="selection.isSelected(element.uuid)"
+                          >
+                            <span>{{ element["property"] }}</span>
+                          </mat-checkbox>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Action Column-->
+                    <ng-container *ngIf="last">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <div [matMenuTriggerFor]="menu">
+                          <span class="cursor">
+                            <mat-icon>more_horiz</mat-icon>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <button type="button" mat-menu-item>
+                              View details
+                            </button>
+                            <button type="button" mat-menu-item>Delete</button>
+                          </mat-menu>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Table  Row Content-->
+                    <ng-container *ngIf="disCol == 'address'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["address"] }}</span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'fault type'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["fault type"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'date reported'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["date reported"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'status'">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <span class="cover-status green">
+                          {{ "Completed" }}
+                        </span>
+                      </td>
+                    </ng-container>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="tag me-0">
+                        {{ element[concatColumnString(disCol)] }}</span
+                      >
+                    </td>
+                  </ng-container>
+                  <!--Mat-table  configurations-->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{
+                      'bg-wrap': selection.isSelected(row)
+                    }"
+                  ></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *ngIf="isFetching">
+                    <td class="mat-cell" colspan="4">Fetching data...</td>
+                  </tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the search item: "{{ filterValue }}"
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+              <mat-paginator
+                #all
+                showFirstLastButton
+                [pageIndex]="currentPage"
+                [pageSize]="pageSize"
+                (page)="pageChanged($event)"
+                class="visibility"
+                [ngClass]="{ hidden: dummyData.length == 0 }"
+              ></mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Rejected ({{ 9 }})">
+          <ng-container *ngIf="isFetching">
+            <app-loading-roller></app-loading-roller>
+          </ng-container>
+          <div
+            class="d-flex justify-content-center align-items-center my-3 empty-state"
+            *ngIf="!isFetching && dummyData.length === 0"
+          >
+            <app-empty-state></app-empty-state>
+          </div>
+          <div
+            class="overflow--wrap _visible body"
+            [ngClass]="{ hide: dummyData.length == 0 }"
+          >
+            <div class="table-wrapper tbl-wrap">
+              <ng-container *ngIf="dummyData.length !== 0">
+                <div
+                  class="toolbar mb-5 adjust-wrap d-flex justify-content-between align-items-center"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-start adjust-flex"
+                  >
+                    <div
+                      class="d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <!-- Master Checkbox-->
+                      <mat-checkbox
+                        class="m-0"
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          selection.hasValue() && !isAllSelected()
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
+                      </mat-checkbox>
+                    </div>
+                    <div class="d-flex align-items-center me-2">
+                      <div [matMenuTriggerFor]="menu" class="cursor">
+                        <span class="d-flex">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button type="button" mat-menu-item>Action</button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <div class="search-input w-400 m-0">
+                      <span><mat-icon>search</mat-icon></span>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        (keyup)="applyFilter($event)"
+                        #input
+                        class="w-400"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center mr-1">
+                      <label class="me-3">Sort by</label>
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary"
+                        [matMenuTriggerFor]="sortby"
+                      >
+                        Most recent
+                        <mat-icon class="ms-2">keyboard_arrow_down</mat-icon>
+                      </button>
+                      <mat-menu #sortby="matMenu">
+                        <button mat-menu-item>
+                          <span>Ascending</span>
+                        </button>
+                        <button mat-menu-item>
+                          <span>Descending</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+
+                    <!-- <div class="mx-3">
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary ms-2"
+                      >
+                        Import
+                      </button>
+                    </div> -->
+
+                    <!-- <div>
+                      <button mat-button>
+                        <img src="assets/export-icon.svg" alt="" class="me-2" />
+                        {{ isExporting ? "" : "Export" }}
+                        <mat-spinner *ngIf="isExporting"></mat-spinner>
+                      </button>
+                    </div> -->
+                  </div>
+                </div>
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="table custom-table w-100"
+                >
+                  <ng-container
+                    *ngFor="
+                      let disCol of displayedColumns;
+                      let colIndex = index;
+                      let last = last
+                    "
+                    [matColumnDef]="disCol"
+                  >
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{ disCol }}
+                    </th>
+                    <ng-container *ngIf="colIndex === 0">
+                      <td mat-cell *matCellDef="let element">
+                        <div
+                          class="d-flex align-items-center"
+                          style="width: fit-content"
+                        >
+                          <mat-checkbox
+                            [value]="element"
+                            (click)="$event.stopPropagation()"
+                            (change)="
+                              $event ? selection.toggle(element.uuid) : null
+                            "
+                            [checked]="selection.isSelected(element.uuid)"
+                          >
+                            <span>{{ element["property"] }}</span>
+                          </mat-checkbox>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Action Column-->
+                    <ng-container *ngIf="last">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <div [matMenuTriggerFor]="menu">
+                          <span class="cursor">
+                            <mat-icon>more_horiz</mat-icon>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <button type="button" mat-menu-item>
+                              View details
+                            </button>
+                            <button type="button" mat-menu-item>Delete</button>
+                          </mat-menu>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Table  Row Content-->
+                    <ng-container *ngIf="disCol == 'address'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["address"] }}</span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'fault type'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["fault type"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'date reported'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["date reported"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'status'">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <span class="cover-status red">
+                          {{ "Rejected" }}
+                        </span>
+                      </td>
+                    </ng-container>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="tag me-0">
+                        {{ element[concatColumnString(disCol)] }}</span
+                      >
+                    </td>
+                  </ng-container>
+                  <!--Mat-table  configurations-->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{
+                      'bg-wrap': selection.isSelected(row)
+                    }"
+                  ></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *ngIf="isFetching">
+                    <td class="mat-cell" colspan="4">Fetching data...</td>
+                  </tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the search item: "{{ filterValue }}"
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+              <mat-paginator
+                #all
+                showFirstLastButton
+                [pageIndex]="currentPage"
+                [pageSize]="pageSize"
+                (page)="pageChanged($event)"
+                class="visibility"
+                [ngClass]="{ hidden: dummyData.length == 0 }"
+              ></mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Pending Request ({{ 2 }})">
+          <ng-container *ngIf="isFetching">
+            <app-loading-roller></app-loading-roller>
+          </ng-container>
+          <div
+            class="d-flex justify-content-center align-items-center my-3 empty-state"
+            *ngIf="!isFetching && dummyData.length === 0"
+          >
+            <app-empty-state></app-empty-state>
+          </div>
+          <div
+            class="overflow--wrap _visible body"
+            [ngClass]="{ hide: dummyData.length == 0 }"
+          >
+            <div class="table-wrapper tbl-wrap">
+              <ng-container *ngIf="dummyData.length !== 0">
+                <div
+                  class="toolbar mb-5 adjust-wrap d-flex justify-content-between align-items-center"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-start adjust-flex"
+                  >
+                    <div
+                      class="d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <!-- Master Checkbox-->
+                      <mat-checkbox
+                        class="m-0"
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          selection.hasValue() && !isAllSelected()
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
+                      </mat-checkbox>
+                    </div>
+                    <div class="d-flex align-items-center me-2">
+                      <div [matMenuTriggerFor]="menu" class="cursor">
+                        <span class="d-flex">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button type="button" mat-menu-item>Action</button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <div class="search-input w-400 m-0">
+                      <span><mat-icon>search</mat-icon></span>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        (keyup)="applyFilter($event)"
+                        #input
+                        class="w-400"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center mr-1">
+                      <label class="me-3">Sort by</label>
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary"
+                        [matMenuTriggerFor]="sortby"
+                      >
+                        Most recent
+                        <mat-icon class="ms-2">keyboard_arrow_down</mat-icon>
+                      </button>
+                      <mat-menu #sortby="matMenu">
+                        <button mat-menu-item>
+                          <span>Ascending</span>
+                        </button>
+                        <button mat-menu-item>
+                          <span>Descending</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+
+                    <!-- <div class="mx-3">
+                      <button
+                        mat-stroked-button
+                        class="mat-stroked-secondary ms-2"
+                      >
+                        Import
+                      </button>
+                    </div> -->
+
+                    <!-- <div>
+                      <button mat-button>
+                        <img src="assets/export-icon.svg" alt="" class="me-2" />
+                        {{ isExporting ? "" : "Export" }}
+                        <mat-spinner *ngIf="isExporting"></mat-spinner>
+                      </button>
+                    </div> -->
+                  </div>
+                </div>
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="table custom-table w-100"
+                >
+                  <ng-container
+                    *ngFor="
+                      let disCol of displayedColumns;
+                      let colIndex = index;
+                      let last = last
+                    "
+                    [matColumnDef]="disCol"
+                  >
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{ disCol }}
+                    </th>
+                    <ng-container *ngIf="colIndex === 0">
+                      <td mat-cell *matCellDef="let element">
+                        <div
+                          class="d-flex align-items-center"
+                          style="width: fit-content"
+                        >
+                          <mat-checkbox
+                            [value]="element"
+                            (click)="$event.stopPropagation()"
+                            (change)="
+                              $event ? selection.toggle(element.uuid) : null
+                            "
+                            [checked]="selection.isSelected(element.uuid)"
+                          >
+                            <span>{{ element["property"] }}</span>
+                          </mat-checkbox>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Action Column-->
+                    <ng-container *ngIf="last">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <div [matMenuTriggerFor]="menu">
+                          <span class="cursor">
+                            <mat-icon>more_horiz</mat-icon>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <button type="button" mat-menu-item>
+                              View details
+                            </button>
+                            <button type="button" mat-menu-item>Delete</button>
+                          </mat-menu>
+                        </div>
+                      </td>
+                    </ng-container>
+                    <!--Table  Row Content-->
+                    <ng-container *ngIf="disCol == 'address'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["address"] }}</span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'fault type'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["fault type"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'date reported'">
+                      <td mat-cell *matCellDef="let element">
+                        <span>{{ element["date reported"] }} </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="disCol == 'status'">
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        <span class="cover-status purple">
+                          {{ "Pending" }}
+                        </span>
+                      </td>
+                    </ng-container>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="tag me-0">
+                        {{ element[concatColumnString(disCol)] }}</span
+                      >
+                    </td>
+                  </ng-container>
+                  <!--Mat-table  configurations-->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{
+                      'bg-wrap': selection.isSelected(row)
+                    }"
+                  ></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *ngIf="isFetching">
+                    <td class="mat-cell" colspan="4">Fetching data...</td>
+                  </tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the search item: "{{ filterValue }}"
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+              <mat-paginator
+                #all
+                showFirstLastButton
+                [pageIndex]="currentPage"
+                [pageSize]="pageSize"
+                (page)="pageChanged($event)"
+                class="visibility"
+                [ngClass]="{ hidden: dummyData.length == 0 }"
+              ></mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</section>
